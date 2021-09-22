@@ -1,0 +1,9 @@
+{
+    "saver": {
+        "type": "mock",
+        "params": {
+            "key": "value"
+        }
+    },
+    "logger_file": "logs/test.log"
+}

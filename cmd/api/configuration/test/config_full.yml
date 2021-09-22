@@ -1,0 +1,5 @@
+version: 1
+saver:
+    type: mock
+    params:
+        key: value
