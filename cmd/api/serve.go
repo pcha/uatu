@@ -7,14 +7,15 @@ import (
 	"os"
 	"path"
 
-	"the-one/cmd/api/configuration"
-	"the-one/cmd/api/server"
+	"the-one/internal/app/configuration"
+	"the-one/internal/app/server"
 
 	"github.com/google/subcommands"
 )
 
 type ServeCmd struct {
 	configFile string
+	port       uint
 }
 
 func (s *ServeCmd) Name() string {
@@ -36,6 +37,7 @@ func (s *ServeCmd) SetFlags(set *flag.FlagSet) {
 	}
 	bd := path.Dir(ex)
 	set.StringVar(&s.configFile, "f", bd+"/uatu-config.yml", "File to Config file")
+	set.UintVar(&s.port, "p", 8080, "Port to serve")
 }
 
 func (s *ServeCmd) Execute(_ context.Context, _ *flag.FlagSet, _ ...interface{}) subcommands.ExitStatus {
@@ -44,7 +46,7 @@ func (s *ServeCmd) Execute(_ context.Context, _ *flag.FlagSet, _ ...interface{})
 		fmt.Println(err.Error())
 		return subcommands.ExitFailure
 	}
-	serv := server.NewDefaultServer(cfg.Saver, 8080)
+	serv := server.NewDefaultServer(cfg.Saver, uint16(s.port))
 	err = serv.Start()
 	fmt.Println(err)
 	return subcommands.ExitFailure

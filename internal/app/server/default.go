@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"the-one/cmd/api/server/queue"
-	"the-one/internal/saver"
+	"the-one/internal/app/server/queue"
+	saver2 "the-one/internal/pkg/saver"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,7 +15,7 @@ type DefaultServer struct {
 	Q    *queue.Queue
 }
 
-func NewDefaultServer(saver saver.Saver, port uint16) *DefaultServer {
+func NewDefaultServer(saver saver2.Saver, port uint16) *DefaultServer {
 	return &DefaultServer{
 		Q:    queue.New(saver),
 		Port: port,
@@ -45,7 +45,7 @@ func (s *DefaultServer) ping() func(c *gin.Context) {
 func (s *DefaultServer) write() func(c *gin.Context) {
 	return func(c *gin.Context) {
 		b := c.Param("bucket")
-		data := saver.NewFact()
+		data := saver2.NewFact()
 		err := c.ShouldBindJSON(data)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{

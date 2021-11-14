@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"path"
 
-	"the-one/internal/saver"
+	saver2 "the-one/internal/pkg/saver"
 
 	"gopkg.in/yaml.v2"
 )
@@ -21,7 +21,7 @@ type Configuration struct {
 }
 
 type Dependencies struct {
-	Saver saver.Saver
+	Saver saver2.Saver
 }
 
 func Load(filepath string) (*Dependencies, error) {
@@ -47,7 +47,7 @@ func readFile(filepath string) (*Configuration, error) {
 }
 
 func buildDependencies(cfg *Configuration) (*Dependencies, error) {
-	s, err := saver.NewSaver(cfg.Saver.Type, cfg.Saver.Params)
+	s, err := saver2.NewSaver(cfg.Saver.Type, cfg.Saver.Params)
 	if err != nil {
 		return nil, err
 	}

@@ -3,21 +3,21 @@ package queue
 import (
 	"log"
 
-	"the-one/internal/saver"
+	saver2 "the-one/internal/pkg/saver"
 )
 
 type Queue struct {
 	channel chan Queueable
-	saver   saver.Saver
+	saver   saver2.Saver
 	stop    chan bool
 }
 
 type Queueable struct {
 	Bucket string
-	Data   *saver.Fact
+	Data   *saver2.Fact
 }
 
-func New(s saver.Saver) *Queue {
+func New(s saver2.Saver) *Queue {
 	return &Queue{
 		make(chan Queueable),
 		s,
@@ -47,13 +47,13 @@ func (q *Queue) listen() {
 	}
 }
 
-func (q *Queue) Receive(bucket string, data *saver.Fact) {
+func (q *Queue) Receive(bucket string, data *saver2.Fact) {
 	q.channel <- Queueable{
 		bucket,
 		data,
 	}
 }
 
-func (q *Queue) GetSaver() saver.Saver {
+func (q *Queue) GetSaver() saver2.Saver {
 	return q.saver
 }

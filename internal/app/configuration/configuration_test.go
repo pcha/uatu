@@ -3,7 +3,7 @@ package configuration
 import (
 	"testing"
 
-	"the-one/internal/saver"
+	"the-one/internal/pkg/saver"
 
 	"github.com/stretchr/testify/assert"
 )

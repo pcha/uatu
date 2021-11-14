@@ -1,6 +1,8 @@
 package saver
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type UnknownTypeError struct {
 	givenType string
@@ -14,7 +16,9 @@ func NewSaver(saverType string, params map[string]string) (Saver, error) {
 	switch saverType {
 	case "mock":
 		return NewMockedSaverWithParams(params), nil
-	default:
-		return nil, &UnknownTypeError{givenType: saverType}
+	case "mongo":
+	case "mongodb":
+		return NewMongoSaver(params)
 	}
+	return nil, &UnknownTypeError{givenType: saverType}
 }

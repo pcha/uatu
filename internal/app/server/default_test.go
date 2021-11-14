@@ -3,15 +3,15 @@ package server
 import (
 	"testing"
 
-	"the-one/cmd/api/server/queue"
-	"the-one/internal/saver"
+	"the-one/internal/app/server/queue"
+	saver2 "the-one/internal/pkg/saver"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewDefaultServer(t *testing.T) {
 	type args struct {
-		saver saver.Saver
+		saver saver2.Saver
 		port  uint16
 	}
 	tests := []struct {
@@ -22,12 +22,12 @@ func TestNewDefaultServer(t *testing.T) {
 		{
 			"Mocked Saver & port 9090",
 			args{
-				saver.NewMockedSaver(),
+				saver2.NewMockedSaver(),
 				9090,
 			},
 			&DefaultServer{
 				Port: 9090,
-				Q:    queue.New(saver.NewMockedSaver()),
+				Q:    queue.New(saver2.NewMockedSaver()),
 			},
 		},
 	}
